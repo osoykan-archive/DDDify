@@ -6,14 +6,6 @@ using DDDify.Aggregates;
 
 namespace DDDify.Entities
 {
-    /// <summary>
-    ///     A shortcut of <see cref="Entity{TPrimaryKey}" /> for most used primary key type (<see cref="int" />).
-    /// </summary>
-    [Serializable]
-    public abstract class Entity : Entity<int>, IEntity
-    {
-    }
-
     /// <inheritdoc />
     /// <summary>
     ///     Basic implementation of IEntity interface.
