@@ -1,11 +1,14 @@
-﻿using DDDify.Tests.ProductContext.Aggregates.Events;
+﻿using System;
 
-namespace DDDify.Tests
+using DDDify.Tests.ProductContext.Aggregates.Events;
+
+namespace DDDify.Tests.ProductContext.Aggregates
 {
     public partial class Product
     {
         private void When(ProductCreated @event)
         {
+            Id = Guid.NewGuid();
             Name = @event.Name;
         }
 

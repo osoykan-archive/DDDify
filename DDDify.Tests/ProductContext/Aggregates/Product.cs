@@ -3,7 +3,7 @@
 using DDDify.Aggregates;
 using DDDify.Tests.ProductContext.Aggregates.Events;
 
-namespace DDDify.Tests
+namespace DDDify.Tests.ProductContext.Aggregates
 {
     public partial class Product : AggregateRoot<Guid>
     {

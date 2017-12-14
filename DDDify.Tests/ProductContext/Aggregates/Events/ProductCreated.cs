@@ -1,6 +1,8 @@
+using DDDify.Bus;
+
 namespace DDDify.Tests.ProductContext.Aggregates.Events
 {
-    public class ProductCreated
+    public class ProductCreated : Event
     {
         public string Name;
 

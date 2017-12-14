@@ -1,60 +1,100 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
+using DDDify.Aggregates;
+using DDDify.Bus;
 using DDDify.Repositories;
-using DDDify.Tests.EfCore;
 using DDDify.Uow;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace DDDify.Tests
+namespace DDDify.Tests.EfCore
 {
-    public class EfUnitOfWork<TDbContext> : UnitOfWorkBase where TDbContext : DbContext
+    public class EfUnitOfWork<TDbContext> : IUnitOfWork where TDbContext : DbContext
     {
         private readonly Func<TDbContext> _dbFactory;
-        private readonly Action<UnitOfWorkOptions> _optionsCreator;
+        private readonly IEventPublisher _publisher;
 
-        public EfUnitOfWork(Func<TDbContext> dbFactory, Action<UnitOfWorkOptions> optionsCreator)
+        public EfUnitOfWork(Func<TDbContext> dbFactory, IEventPublisher publisher)
         {
             _dbFactory = dbFactory;
-            _optionsCreator = optionsCreator;
+            _publisher = publisher;
         }
 
-        public override async Task For<TAggregateRoot, TPrimaryKey>(
+        public async Task For<TAggregateRoot, TPrimaryKey>(
             Func<IRepository<TAggregateRoot, TPrimaryKey>, Task> when,
-            Action onCompleted,
-            Action<Exception> onFailed,
-            CancellationToken cancellationToken = default(CancellationToken))
+            Action<UnitOfWorkOptions> optionsCreator = null,
+            Action onCompleted = null,
+            Action<Exception> onFailed = null,
+            bool throwIfNeeded = false,
+            CancellationToken cancellationToken = default)
+            where TAggregateRoot : class, IAggregateRoot<TPrimaryKey>
 
         {
             var opts = new UnitOfWorkOptions();
-            _optionsCreator(opts);
+            optionsCreator?.Invoke(opts);
 
-            TDbContext dbContext = _dbFactory();
-
+            Func<Task> internalOnCompleted = () => Task.CompletedTask;
             try
             {
-                using (IDbContextTransaction trx = await dbContext.Database.BeginTransactionAsync((opts.IsolationLevel ?? IsolationLevel.ReadUncommitted).ToSystemDataIsolationLevel(), cancellationToken))
+                using (TDbContext dbContext = _dbFactory())
                 {
-                    Id = trx.TransactionId.ToString();
+                    using (IDbContextTransaction trx = await dbContext.Database.BeginTransactionAsync((opts.IsolationLevel ?? IsolationLevel.ReadUncommitted).ToSystemDataIsolationLevel(), cancellationToken))
+                    {
+                        Id = trx.TransactionId.ToString();
 
-                    await when(new EfRepository<TDbContext, TAggregateRoot, TPrimaryKey>(_dbFactory()));
+                        await when(new EfRepository<TDbContext, TAggregateRoot, TPrimaryKey>(dbContext));
 
-                    await dbContext.SaveChangesAsync(cancellationToken);
+                        internalOnCompleted = PrepareCompleteAction(dbContext);
 
-                    trx.Commit();
+                        await dbContext.SaveChangesAsync(cancellationToken);
+
+                        trx.Commit();
+                    }
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                onFailed(exception);
-                throw;
+                onFailed?.Invoke(ex);
+
+                if (throwIfNeeded)
+                {
+                    throw;
+                }
             }
 
-            onCompleted();
+            await internalOnCompleted();
+
+            onCompleted?.Invoke();
+        }
+
+        public string Id { get; private set; }
+
+        private Func<Task> PrepareCompleteAction(TDbContext dbContext)
+        {
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                List<EntityEntry> changes = dbContext.ChangeTracker.Entries().ToList();
+                IEnumerable<IAggregateChangeTracker> trackedChanges = changes.Where(x => x.Entity is IAggregateChangeTracker)
+                                                                             .Select(x => (IAggregateChangeTracker)x.Entity);
+
+                return async () =>
+                {
+                    List<Event> events = trackedChanges.SelectMany(x => x.GetChanges()).OfType<Event>().ToList();
+                    foreach (Event @event in events)
+                    {
+                        await _publisher.Publish(@event);
+                    }
+                };
+            }
+
+            return async () => await Task.CompletedTask;
         }
     }
 }

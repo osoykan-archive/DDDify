@@ -7,10 +7,6 @@ using DDDify.Entities;
 
 namespace DDDify.Aggregates
 {
-    public class AggregateRoot : AggregateRoot<int>, IAggregateRoot
-    {
-    }
-
     public class AggregateRoot<TPrimaryKey> : IAggregateRoot<TPrimaryKey>
     {
         private readonly EventRecorder _recorder;
@@ -173,13 +169,11 @@ namespace DDDify.Aggregates
             return Id.Equals(other.Id);
         }
 
-        /// <inheritdoc />
         public override int GetHashCode()
         {
             return Id.GetHashCode();
         }
 
-        /// <inheritdoc />
         public static bool operator ==(AggregateRoot<TPrimaryKey> left, AggregateRoot<TPrimaryKey> right)
         {
             if (Equals(left, null))
@@ -190,7 +184,6 @@ namespace DDDify.Aggregates
             return left.Equals(right);
         }
 
-        /// <inheritdoc />
         public static bool operator !=(AggregateRoot<TPrimaryKey> left, AggregateRoot<TPrimaryKey> right)
         {
             return !(left == right);

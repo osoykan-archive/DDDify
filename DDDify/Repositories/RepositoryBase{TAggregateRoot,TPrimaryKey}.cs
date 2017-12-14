@@ -8,13 +8,6 @@ using DDDify.Aggregates;
 
 namespace DDDify.Repositories
 {
-    /// <inheritdoc />
-    /// <summary>
-    ///     Base class to implement <see cref="T:DDDify.Repositories.IRepository`2" />.
-    ///     It implements some methods in most simple way.
-    /// </summary>
-    /// <typeparam name="TAggregateRoot">Type of the Entity for this repository</typeparam>
-    /// <typeparam name="TPrimaryKey">Primary key of the entity</typeparam>
     public abstract class RepositoryBase<TAggregateRoot, TPrimaryKey> : IRepository<TAggregateRoot, TPrimaryKey>
         where TAggregateRoot : class, IAggregateRoot<TPrimaryKey>
     {

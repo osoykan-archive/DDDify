@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DDDify.Aggregates
 {
     /// <summary>
     ///     Records events applied to an aggregate's root entity or entity.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
     public class EventRecorder : IEnumerable<object>
     {
         private readonly List<object> _recorded;

@@ -13,8 +13,10 @@ namespace DDDify.Uow
 
         Task For<TAggregateRoot, TPrimaryKey>(
             Func<IRepository<TAggregateRoot, TPrimaryKey>, Task> when,
-            Action onCompleted,
-            Action<Exception> onFailed, 
+            Action<UnitOfWorkOptions> optionsCreator = null,
+            Action onCompleted = null,
+            Action<Exception> onFailed = null,
+            bool throwIfNeeded = false,
             CancellationToken cancellationToken = default(CancellationToken))
             where TAggregateRoot : class, IAggregateRoot<TPrimaryKey>;
     }

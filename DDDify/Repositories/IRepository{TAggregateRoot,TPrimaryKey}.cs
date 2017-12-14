@@ -13,7 +13,7 @@ namespace DDDify.Repositories
     /// </summary>
     /// <typeparam name="TAggregateRoot">Main Entity type this repository works on</typeparam>
     /// <typeparam name="TPrimaryKey">Primary key type of the entity</typeparam>
-    public interface IRepository<TAggregateRoot, TPrimaryKey> : IRepository where TAggregateRoot : class, IAggregateRoot<TPrimaryKey>
+    public interface IRepository<TAggregateRoot, TPrimaryKey> where TAggregateRoot : class, IAggregateRoot<TPrimaryKey>
     {
         /// <summary>
         ///     Used to get a IQueryable that is used to retrieve entities from entire table.

@@ -1,8 +1,10 @@
 using System;
 
+using DDDify.Bus;
+
 namespace DDDify.Tests.ProductContext.Aggregates.Events
 {
-    public class ProductNameChanged
+    public class ProductNameChanged : Event
     {
         public Guid Id;
         public string Name;

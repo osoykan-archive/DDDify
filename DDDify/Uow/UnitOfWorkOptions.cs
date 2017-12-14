@@ -8,6 +8,13 @@ namespace DDDify.Uow
     /// </summary>
     public class UnitOfWorkOptions
     {
+        public UnitOfWorkOptions()
+        {
+            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+            IsLazyLoadEnabled = true;
+            Timeout = TimeSpan.FromMinutes(1);
+        }
+
         /// <summary>
         ///     Timeout of UOW As milliseconds.
         ///     Uses default value if not supplied.

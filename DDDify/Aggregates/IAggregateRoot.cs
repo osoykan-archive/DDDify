@@ -1,15 +1,19 @@
 using System.Collections.Generic;
 
-using DDDify.Entities;
-
 namespace DDDify.Aggregates
 {
-    public interface IAggregateRoot : IAggregateRoot<int>, IEntity
+    public interface IAggregateRoot<TPrimaryKey> : IAggregateChangeTracker
     {
-    }
+        /// <summary>
+        ///     Unique identifier for this AggregateRoot.
+        /// </summary>
+        TPrimaryKey Id { get; set; }
 
-    public interface IAggregateRoot<TPrimaryKey> : IEntity<TPrimaryKey>, IAggregateChangeTracker
-    {
+        /// <summary>
+        ///     Checks if this entity is transient (not persisted to database and it has not an <see cref="Id" />).
+        /// </summary>
+        /// <returns>True, if this entity is transient</returns>
+        bool IsTransient();
     }
 
     /// <summary>
