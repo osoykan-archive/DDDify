@@ -32,7 +32,7 @@ namespace DDDify.Tests.EfCore
             Action<UnitOfWorkOptions> optionsCreator = null,
             Action onCompleted = null,
             Action<Exception> onFailed = null,
-            bool throwIfNeeded = false,
+            bool throwIfNeeded = true,
             CancellationToken cancellationToken = default)
             where TAggregateRoot : class, IAggregateRoot<TPrimaryKey>
 
@@ -40,7 +40,7 @@ namespace DDDify.Tests.EfCore
             var opts = new UnitOfWorkOptions();
             optionsCreator?.Invoke(opts);
 
-            Func<Task> internalOnCompleted = () => Task.CompletedTask;
+            Func<Task> internalOnCompleted;
             try
             {
                 using (TDbContext dbContext = _dbFactory())
@@ -67,6 +67,8 @@ namespace DDDify.Tests.EfCore
                 {
                     throw;
                 }
+
+                return;
             }
 
             await internalOnCompleted();
@@ -94,7 +96,7 @@ namespace DDDify.Tests.EfCore
                 };
             }
 
-            return async () => await Task.CompletedTask;
+            return () => Task.CompletedTask;
         }
     }
 }

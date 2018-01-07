@@ -16,8 +16,8 @@ namespace DDDify.Uow
             Action<UnitOfWorkOptions> optionsCreator = null,
             Action onCompleted = null,
             Action<Exception> onFailed = null,
-            bool throwIfNeeded = false,
-            CancellationToken cancellationToken = default(CancellationToken))
+            bool throwIfNeeded = true,
+            CancellationToken cancellationToken = default)
             where TAggregateRoot : class, IAggregateRoot<TPrimaryKey>;
     }
 }
