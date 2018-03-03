@@ -9,16 +9,8 @@ namespace DDDify.Tests.ProductContext.EventHandlers
         IHandles<ProductCreated>,
         IHandles<ProductNameChanged>
     {
-        public Task Handle(ProductCreated message)
-        {
-            string name = message.Name;
+        public Task Handle(ProductCreated message) => Task.FromResult(0);
 
-            return Task.FromResult(0);
-        }
-
-        public Task Handle(ProductNameChanged message)
-        {
-            return null;
-        }
+        public Task Handle(ProductNameChanged message) => Task.CompletedTask;
     }
 }

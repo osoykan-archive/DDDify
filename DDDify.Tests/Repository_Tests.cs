@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Threading.Tasks;
 
+using DDDify.Bus;
 using DDDify.Tests.EfCore;
 using DDDify.Tests.ProductContext;
 using DDDify.Tests.ProductContext.Aggregates;
@@ -24,8 +25,8 @@ namespace DDDify.Tests
         {
             var conn = new SqliteConnection("Data Source=:memory:");
             DbContextOptions<ProductDbContext> opts = new DbContextOptionsBuilder<ProductDbContext>()
-                .UseSqlite(conn)
-                .Options;
+                                                      .UseSqlite(conn)
+                                                      .Options;
 
             conn.Open();
 

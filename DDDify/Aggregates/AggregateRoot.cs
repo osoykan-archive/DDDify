@@ -27,20 +27,14 @@ namespace DDDify.Aggregates
         /// <returns>
         ///     <c>true</c> if this instance has state changes; otherwise, <c>false</c>.
         /// </returns>
-        public bool HasChanges()
-        {
-            return _recorder.Any();
-        }
+        public bool HasChanges() => _recorder.Any();
 
         /// <inheritdoc />
         /// <summary>
         ///     Gets the state changes applied to this instance.
         /// </summary>
         /// <returns>A list of recorded state changes.</returns>
-        public IEnumerable<object> GetChanges()
-        {
-            return _recorder.ToArray();
-        }
+        public IEnumerable<object> GetChanges() => _recorder.ToArray();
 
         /// <inheritdoc />
         /// <summary>
@@ -119,7 +113,7 @@ namespace DDDify.Aggregates
         /// <returns>True, if this entity is transient</returns>
         public virtual bool IsTransient()
         {
-            if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default(TPrimaryKey)))
+            if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default))
             {
                 return true;
             }
@@ -169,10 +163,7 @@ namespace DDDify.Aggregates
             return Id.Equals(other.Id);
         }
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
+        public override int GetHashCode() => Id.GetHashCode();
 
         public static bool operator ==(AggregateRoot<TPrimaryKey> left, AggregateRoot<TPrimaryKey> right)
         {
@@ -184,10 +175,7 @@ namespace DDDify.Aggregates
             return left.Equals(right);
         }
 
-        public static bool operator !=(AggregateRoot<TPrimaryKey> left, AggregateRoot<TPrimaryKey> right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(AggregateRoot<TPrimaryKey> left, AggregateRoot<TPrimaryKey> right) => !(left == right);
 
         #endregion
     }

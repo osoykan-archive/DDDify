@@ -34,6 +34,7 @@ namespace DDDify.Aggregates
             {
                 throw new ArgumentNullException(nameof(@event));
             }
+
             if (handler == null)
             {
                 throw new ArgumentNullException(nameof(handler));

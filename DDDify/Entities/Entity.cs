@@ -67,7 +67,7 @@ namespace DDDify.Entities
         /// <returns>True, if this entity is transient</returns>
         public virtual bool IsTransient()
         {
-            if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default(TPrimaryKey)))
+            if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default))
             {
                 return true;
             }
@@ -118,10 +118,7 @@ namespace DDDify.Entities
             return Id.Equals(other.Id);
         }
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
+        public override int GetHashCode() => Id.GetHashCode();
 
         public static bool operator ==(Entity<TPrimaryKey> left, Entity<TPrimaryKey> right)
         {
@@ -133,15 +130,9 @@ namespace DDDify.Entities
             return left.Equals(right);
         }
 
-        public static bool operator !=(Entity<TPrimaryKey> left, Entity<TPrimaryKey> right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(Entity<TPrimaryKey> left, Entity<TPrimaryKey> right) => !(left == right);
 
-        public override string ToString()
-        {
-            return $"[{GetType().Name} {Id}]";
-        }
+        public override string ToString() => $"[{GetType().Name} {Id}]";
 
         #endregion
     }

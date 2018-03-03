@@ -1,60 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
-using DDDify.Bus;
-
-namespace DDDify
+namespace DDDify.Bus
 {
     public class InMemoryBus : IBus
     {
-        private readonly Dictionary<Type, List<Action<IMessage>>> _routes = new Dictionary<Type, List<Action<IMessage>>>();
+        private readonly Dictionary<Type, List<Func<IMessage, Task>>> _routes = new Dictionary<Type, List<Func<IMessage, Task>>>();
 
-        public Task Send<T>(T command) where T : Command
+        public async Task Send<T>(T command) where T : Command
         {
-            if (_routes.TryGetValue(typeof(T), out List<Action<IMessage>> handlers))
+            if (_routes.TryGetValue(typeof(T), out List<Func<IMessage, Task>> handlers))
             {
                 if (handlers.Count != 1)
                 {
                     throw new InvalidOperationException("Command Handler cannot be more than one");
                 }
 
-                handlers.First()(command);
+                await handlers.First()(command);
             }
             else
             {
                 throw new InvalidOperationException("no handler registered");
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task Publish<T>(T @event) where T : Event
+        public async Task Publish<T>(T @event) where T : Event
         {
-            if (!_routes.TryGetValue(@event.GetType(), out List<Action<IMessage>> handlers))
+            if (!_routes.TryGetValue(@event.GetType(), out List<Func<IMessage, Task>> handlers))
             {
-                return Task.CompletedTask;
+                return;
             }
 
-            foreach (Action<IMessage> handler in handlers)
+            foreach (Func<IMessage, Task> handler in handlers)
             {
-                ThreadPool.QueueUserWorkItem(state => handler(@event));
+                await handler(@event);
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task Register<T>(Action<T> handler)
+        public Task Register<T>(Func<T, Task> handler)
         {
-            if (!_routes.TryGetValue(typeof(T), out List<Action<IMessage>> handlers))
+            if (!_routes.TryGetValue(typeof(T), out List<Func<IMessage, Task>> handlers))
             {
-                handlers = new List<Action<IMessage>>();
+                handlers = new List<Func<IMessage, Task>>();
                 _routes.Add(typeof(T), handlers);
             }
 
-            handlers.Add(message => handler((T)message));
+            handlers.Add(async message => await handler((T)message));
 
             return Task.CompletedTask;
         }

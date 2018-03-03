@@ -27,28 +27,28 @@ namespace DDDify.Repositories
         /// <param name="id">Primary key of the entity to get</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Entity</returns>
-        Task<TAggregateRoot> Get(TPrimaryKey id, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TAggregateRoot> Get(TPrimaryKey id, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Gets an entity with given given predicate or null if not found.
         /// </summary>
         /// <param name="predicate">Predicate to filter entities</param>
         /// <param name="cancellationToken"></param>
-        Task<TAggregateRoot> Get(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TAggregateRoot> Get(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Inserts a new entity.
         /// </summary>
         /// <param name="entity">Inserted entity</param>
         /// <param name="cancellationToken"></param>
-        Task Insert(TAggregateRoot entity, CancellationToken cancellationToken = default(CancellationToken));
+        Task Insert(TAggregateRoot entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Updates an existing entity.
         /// </summary>
         /// <param name="entity">Entity</param>
         /// <param name="cancellationToken"></param>
-        Task Update(TAggregateRoot entity, CancellationToken cancellationToken = default(CancellationToken));
+        Task Update(TAggregateRoot entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Updates an existing entity.
@@ -57,21 +57,21 @@ namespace DDDify.Repositories
         /// <param name="updateAction">Action that can be used to change values of the entity</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Updated entity</returns>
-        Task Update(TPrimaryKey id, Func<TAggregateRoot, Task> updateAction, CancellationToken cancellationToken = default(CancellationToken));
+        Task Update(TPrimaryKey id, Func<TAggregateRoot, Task> updateAction, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Deletes an entity.
         /// </summary>
         /// <param name="entity">Entity to be deleted</param>
         /// <param name="cancellationToken"></param>
-        Task Delete(TAggregateRoot entity, CancellationToken cancellationToken = default(CancellationToken));
+        Task Delete(TAggregateRoot entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Deletes an entity by primary key.
         /// </summary>
         /// <param name="id">Primary key of the entity</param>
         /// <param name="cancellationToken"></param>
-        Task Delete(TPrimaryKey id, CancellationToken cancellationToken = default(CancellationToken));
+        Task Delete(TPrimaryKey id, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Deletes many entities by function.
@@ -81,6 +81,6 @@ namespace DDDify.Repositories
         /// </summary>
         /// <param name="predicate">A condition to filter entities</param>
         /// <param name="cancellationToken"></param>
-        Task Delete(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken));
+        Task Delete(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
     }
 }

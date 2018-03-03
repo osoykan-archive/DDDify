@@ -87,9 +87,6 @@ namespace DDDify.Values
             return x.Equals(y);
         }
 
-        public static bool operator !=(ValueObject<TValueObject> x, ValueObject<TValueObject> y)
-        {
-            return !(x == y);
-        }
+        public static bool operator !=(ValueObject<TValueObject> x, ValueObject<TValueObject> y) => !(x == y);
     }
 }

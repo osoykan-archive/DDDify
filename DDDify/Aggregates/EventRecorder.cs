@@ -23,10 +23,7 @@ namespace DDDify.Aggregates
         ///     Gets an enumeration of recorded events.
         /// </summary>
         /// <returns>The recorded event enumerator.</returns>
-        public IEnumerator<object> GetEnumerator()
-        {
-            return _recorded.GetEnumerator();
-        }
+        public IEnumerator<object> GetEnumerator() => _recorded.GetEnumerator();
 
         /// <summary>
         ///     Returns an enumerator that iterates through a collection.
@@ -34,10 +31,7 @@ namespace DDDify.Aggregates
         /// <returns>
         ///     An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
         /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         /// <summary>
         ///     Records that the specified event happened.
