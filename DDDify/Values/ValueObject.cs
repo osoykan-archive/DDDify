@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 
 namespace DDDify.Values
 {
@@ -14,18 +13,19 @@ namespace DDDify.Values
     {
         public bool Equals(TValueObject other)
         {
-            if ((object)other == null)
+            if ((object) other == null)
             {
                 return false;
             }
 
-            PropertyInfo[] publicProperties = GetType().GetProperties();
+            var publicProperties = GetType().GetProperties();
             if (!publicProperties.Any())
             {
                 return true;
             }
 
-            return publicProperties.All(property => Equals(property.GetValue(this, null), property.GetValue(other, null)));
+            return publicProperties.All(property =>
+                Equals(property.GetValue(this, null), property.GetValue(other, null)));
         }
 
         public override bool Equals(object obj)
@@ -36,7 +36,7 @@ namespace DDDify.Values
             }
 
             var item = obj as ValueObject<TValueObject>;
-            return (object)item != null && Equals((TValueObject)item);
+            return (object) item != null && Equals((TValueObject) item);
         }
 
         public override int GetHashCode()
@@ -44,19 +44,19 @@ namespace DDDify.Values
             const int index = 1;
             const int initialHasCode = 31;
 
-            PropertyInfo[] publicProperties = GetType().GetProperties();
+            var publicProperties = GetType().GetProperties();
 
             if (!publicProperties.Any())
             {
                 return initialHasCode;
             }
 
-            int hashCode = initialHasCode;
+            var hashCode = initialHasCode;
             var changeMultiplier = false;
 
-            foreach (PropertyInfo property in publicProperties)
+            foreach (var property in publicProperties)
             {
-                object value = property.GetValue(this, null);
+                var value = property.GetValue(this, null);
 
                 if (value == null)
                 {
@@ -79,7 +79,7 @@ namespace DDDify.Values
                 return true;
             }
 
-            if ((object)x == null || (object)y == null)
+            if ((object) x == null || (object) y == null)
             {
                 return false;
             }

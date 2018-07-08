@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-
 using DDDify.Entities;
 
 namespace DDDify.Aggregates
@@ -18,7 +18,7 @@ namespace DDDify.Aggregates
             _router = new InstanceEventRouter();
         }
 
-        public virtual TPrimaryKey Id { get; set; }
+        [Key] public virtual TPrimaryKey Id { get; set; }
 
         /// <inheritdoc />
         /// <summary>
@@ -146,16 +146,17 @@ namespace DDDify.Aggregates
             }
 
             //Transient objects are not considered as equal
-            var other = (Entity<TPrimaryKey>)obj;
+            var other = (Entity<TPrimaryKey>) obj;
             if (IsTransient() && other.IsTransient())
             {
                 return false;
             }
 
             //Must have a IS-A relation of types or must be same type
-            Type typeOfThis = GetType();
-            Type typeOfOther = other.GetType();
-            if (!typeOfThis.GetTypeInfo().IsAssignableFrom(typeOfOther) && !typeOfOther.GetTypeInfo().IsAssignableFrom(typeOfThis))
+            var typeOfThis = GetType();
+            var typeOfOther = other.GetType();
+            if (!typeOfThis.GetTypeInfo().IsAssignableFrom(typeOfOther) &&
+                !typeOfOther.GetTypeInfo().IsAssignableFrom(typeOfThis))
             {
                 return false;
             }
@@ -175,7 +176,8 @@ namespace DDDify.Aggregates
             return left.Equals(right);
         }
 
-        public static bool operator !=(AggregateRoot<TPrimaryKey> left, AggregateRoot<TPrimaryKey> right) => !(left == right);
+        public static bool operator !=(AggregateRoot<TPrimaryKey> left, AggregateRoot<TPrimaryKey> right) =>
+            !(left == right);
 
         #endregion
     }
