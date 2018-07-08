@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-
 using DDDify.Aggregates;
+using MediatR;
 
 namespace DDDify.Entities
 {
@@ -17,14 +18,12 @@ namespace DDDify.Entities
     {
         private readonly InstanceEventRouter _router;
 
-        protected Entity()
-        {
-            _router = new InstanceEventRouter();
-        }
+        protected Entity() => _router = new InstanceEventRouter();
 
         /// <summary>
         ///     Unique identifier for this entity.
         /// </summary>
+        [Key]
         public virtual TPrimaryKey Id { get; set; }
 
         /// <summary>
@@ -101,16 +100,17 @@ namespace DDDify.Entities
             }
 
             //Transient objects are not considered as equal
-            var other = (Entity<TPrimaryKey>)obj;
+            var other = (Entity<TPrimaryKey>) obj;
             if (IsTransient() && other.IsTransient())
             {
                 return false;
             }
 
             //Must have a IS-A relation of types or must be same type
-            Type typeOfThis = GetType();
-            Type typeOfOther = other.GetType();
-            if (!typeOfThis.GetTypeInfo().IsAssignableFrom(typeOfOther) && !typeOfOther.GetTypeInfo().IsAssignableFrom(typeOfThis))
+            var typeOfThis = GetType();
+            var typeOfOther = other.GetType();
+            if (!typeOfThis.GetTypeInfo().IsAssignableFrom(typeOfOther) &&
+                !typeOfOther.GetTypeInfo().IsAssignableFrom(typeOfThis))
             {
                 return false;
             }

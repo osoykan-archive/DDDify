@@ -14,10 +14,7 @@ namespace DDDify.Aggregates
         /// <summary>
         ///     Initializes a new instance of the <see cref="InstanceEventRouter" /> class.
         /// </summary>
-        public InstanceEventRouter()
-        {
-            _handlers = new Dictionary<Type, Action<object>>();
-        }
+        public InstanceEventRouter() => _handlers = new Dictionary<Type, Action<object>>();
 
         /// <summary>
         ///     Adds a route for the specified event type to the specified state handler.
@@ -57,7 +54,7 @@ namespace DDDify.Aggregates
                 throw new ArgumentNullException(nameof(handler));
             }
 
-            _handlers.Add(typeof(TEvent), @event => handler((TEvent)@event));
+            _handlers.Add(typeof(TEvent), @event => handler((TEvent) @event));
         }
 
         /// <inheritdoc />
@@ -73,7 +70,7 @@ namespace DDDify.Aggregates
                 throw new ArgumentNullException(nameof(@event));
             }
 
-            if (_handlers.TryGetValue(@event.GetType(), out Action<object> handler))
+            if (_handlers.TryGetValue(@event.GetType(), out var handler))
             {
                 handler(@event);
             }

@@ -14,10 +14,7 @@ namespace DDDify.Aggregates
         /// <summary>
         ///     Initializes a new instance of the <see cref="EventRecorder" /> class.
         /// </summary>
-        public EventRecorder()
-        {
-            _recorded = new List<object>();
-        }
+        public EventRecorder() => _recorded = new List<object>();
 
         /// <summary>
         ///     Gets an enumeration of recorded events.
@@ -25,6 +22,7 @@ namespace DDDify.Aggregates
         /// <returns>The recorded event enumerator.</returns>
         public IEnumerator<object> GetEnumerator() => _recorded.GetEnumerator();
 
+        /// <inheritdoc />
         /// <summary>
         ///     Returns an enumerator that iterates through a collection.
         /// </summary>
