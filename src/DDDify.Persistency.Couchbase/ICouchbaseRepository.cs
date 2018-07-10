@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using DDDify.Aggregates;
 
@@ -12,5 +13,6 @@ namespace DDDify.Persistency.Couchbase
     public interface ICouchbaseRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
         where TAggregateRoot : AggregateRoot<TKey>
     {
+        IQueryable<TAggregateRoot> Get();
     }
 }

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 using DDDify.Persistency.Couchbase.Tests.Commands;
@@ -18,8 +16,26 @@ using Xunit;
 
 namespace DDDify.Persistency.Couchbase.Tests
 {
+    [Collection("CouchbaseCollection")]
     public class ProductCommandsTests : ApplicationTestBase
-    { 
+    {
+        public ProductCommandsTests(CouchbaseDockerFixture fixture)
+        {
+            _fixture = fixture;
+
+            Building(services =>
+            {
+                services.AddDDDify(builder =>
+                {
+                    builder.UseCouchbase(Configuration)
+                           .AddBucket<Product>("ProductContext");
+                });
+                services.AddLogging();
+            }).Ok();
+        }
+
+        private CouchbaseDockerFixture _fixture;
+
         [Fact]
         public async Task Create_Product()
         {
