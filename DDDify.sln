@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDify", "DDDify\DDDify.csproj", "{64DFAF27-2D49-4570-9ED5-8CA4F79F5ECF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDify", "src\DDDify\DDDify.csproj", "{64DFAF27-2D49-4570-9ED5-8CA4F79F5ECF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDify.Tests", "DDDify.Tests\DDDify.Tests.csproj", "{321F787E-0473-4F3D-90BE-AB090FFF33F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDify.Tests", "test\DDDify.Tests\DDDify.Tests.csproj", "{321F787E-0473-4F3D-90BE-AB090FFF33F5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ADE25629-589E-40D5-BF0D-838875DB818D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DB4C989F-6521-41DD-A77C-DCABFA11CD43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDify.Persistency.Couchbase", "DDDify.Persistency.Couchbase\DDDify.Persistency.Couchbase.csproj", "{5B345560-4FC4-43D8-976A-0E93495EE621}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDify.Persistency.Couchbase", "src\DDDify.Persistency.Couchbase\DDDify.Persistency.Couchbase.csproj", "{5B345560-4FC4-43D8-976A-0E93495EE621}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDify.Persistency.Couchbase.Tests", "DDDify.Persistency.Couchbase.Tests\DDDify.Persistency.Couchbase.Tests.csproj", "{5196A0A0-A8EE-4DA3-B52F-67E65126B683}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDify.Persistency.Couchbase.Tests", "test\DDDify.Persistency.Couchbase.Tests\DDDify.Persistency.Couchbase.Tests.csproj", "{5196A0A0-A8EE-4DA3-B52F-67E65126B683}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestBase", "TestBase\TestBase.csproj", "{C0CE0276-0D4C-45AF-B6C6-9DDDE123A0E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestBase", "test\TestBase\TestBase.csproj", "{C0CE0276-0D4C-45AF-B6C6-9DDDE123A0E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

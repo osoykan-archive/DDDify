@@ -1,11 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Docker\by_productId.ddoc" />
     <None Remove="Docker\configure.sh" />
@@ -25,9 +22,8 @@
     <PackageReference Include="Ductus.FluentDocker" Version="2.3.0" />
 
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\DDDify.Persistency.Couchbase\DDDify.Persistency.Couchbase.csproj" />
+    <ProjectReference Include="..\..\src\DDDify.Persistency.Couchbase\DDDify.Persistency.Couchbase.csproj" />
     <ProjectReference Include="..\TestBase\TestBase.csproj" />
   </ItemGroup>
 
