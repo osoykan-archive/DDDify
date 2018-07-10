@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.4.0" />
     <PackageReference Include="CompareNETObjects" Version="4.55.0" />
-    <PackageReference Include="Docker.DotNet" Version="3.125.2" />
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />

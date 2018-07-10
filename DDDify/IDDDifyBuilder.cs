@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public IDDDifyBuilder WithAssemblies(params Assembly[] assemblies)
         {
-            Assembly[] _assemblies =  AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).ToArray();
+            Assembly[] _assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).ToArray();
             Services.AddMediatR(assemblies ?? _assemblies);
 
             return this;

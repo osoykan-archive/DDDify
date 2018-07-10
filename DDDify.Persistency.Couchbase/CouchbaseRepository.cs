@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Couchbase;
 using Couchbase.Core;
 using Couchbase.Extensions.DependencyInjection;
+using Couchbase.Linq;
 
 using DDDify.Aggregates;
 using DDDify.Messaging;
@@ -79,6 +80,8 @@ namespace DDDify.Persistency.Couchbase
         }
 
         public string GenerateDocumentId(TAggregateRoot entity) => $"{typeof(TAggregateRoot).Name}:{entity.Id}";
+
+        public IQueryable<TAggregateRoot> Get() => new BucketContext(_bucket).Query<TAggregateRoot>();
 
         private async Task DispatchDomainEventsAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         {

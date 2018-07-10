@@ -29,9 +29,10 @@ namespace DDDify
 
         public static IDDDifyBuilder UseCouchbase(this IDDDifyBuilder builder, IConfiguration configuration, string configSectionName = "Couchbase") => builder.UseCouchbase(configuration.GetSection(configSectionName));
 
-        public static void AddBucket<TAggregateRoot>(this IDDDifyBuilder builder, string bucketName)
+        public static IDDDifyBuilder AddBucket<TAggregateRoot>(this IDDDifyBuilder builder, string bucketName)
         {
             BucketNames.AddOrUpdate(typeof(TAggregateRoot), bucketName, (t, v) => bucketName);
+            return builder;
         }
     }
 }
