@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
-
 using DDDify.Aggregates;
-
 using FluentAssertions;
-
 using KellermanSoftware.CompareNetObjects;
 
 namespace TestBase
@@ -13,7 +10,7 @@ namespace TestBase
     {
         private TAggregateRoot _aggregateRoot;
         private Action<TAggregateRoot>[] _whens;
-        
+
         public ScenarioForExisting<TAggregateRoot> Given(Func<TAggregateRoot> aggregateRoot)
         {
             _aggregateRoot = aggregateRoot();
@@ -59,7 +56,7 @@ namespace TestBase
             }
 
             _aggregateRoot.GetChanges().ToArray().Should()
-                          .BeEmpty("Aggregate should not have any events! But founded.");
+                .BeEmpty("Aggregate should not have any events! But founded.");
         }
 
         public void ThenThrows<TException>(string message = "") where TException : Exception

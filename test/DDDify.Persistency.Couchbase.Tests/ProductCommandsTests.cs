@@ -1,17 +1,11 @@
 using System;
 using System.Threading.Tasks;
-
 using DDDify.Persistency.Couchbase.Tests.Commands;
-
 using FluentAssertions;
-
 using MediatR;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using TestBase;
 using TestBase.ProductContext.Aggregates;
-
 using Xunit;
 
 namespace DDDify.Persistency.Couchbase.Tests
@@ -28,7 +22,7 @@ namespace DDDify.Persistency.Couchbase.Tests
                 services.AddDDDify(builder =>
                 {
                     builder.UseCouchbase(Configuration)
-                           .AddBucket<Product>("ProductContext");
+                        .AddBucket<Product>("ProductContext");
                 });
                 services.AddLogging();
             }).Ok();
@@ -39,8 +33,8 @@ namespace DDDify.Persistency.Couchbase.Tests
         [Fact]
         public async Task Create_Product()
         {
-            Guid productId = Random<Guid>._;
-            string name = Random<string>._;
+            var productId = Random<Guid>._;
+            var name = Random<string>._;
 
             await The<IMediator>().Send(new CreateProductCommand(productId, name));
 

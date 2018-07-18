@@ -1,9 +1,7 @@
 ﻿using System;
-
 using TestBase;
 using TestBase.ProductContext.Aggregates;
 using TestBase.ProductContext.Aggregates.Events;
-
 using Xunit;
 
 namespace DDDify.Tests.ProductSpecs

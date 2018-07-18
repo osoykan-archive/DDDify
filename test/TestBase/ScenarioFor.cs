@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
-
 using DDDify.Aggregates;
-
 using FluentAssertions;
-
 using KellermanSoftware.CompareNetObjects;
 
 namespace TestBase

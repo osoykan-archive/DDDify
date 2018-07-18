@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +13,8 @@ namespace TestBase
 
         protected IServiceCollection Services { get; }
 
-        protected IConfiguration Configuration => new ConfigurationBuilder().AddInMemoryCollection(InMemoryConfiguration).Build();
+        protected IConfiguration Configuration =>
+            new ConfigurationBuilder().AddInMemoryCollection(InMemoryConfiguration).Build();
 
         protected abstract IDictionary<string, string> InMemoryConfiguration { get; }
 
@@ -44,6 +44,5 @@ namespace TestBase
         }
 
         protected T The<T>() => LocalResolver.GetRequiredService<T>();
-        
     }
 }

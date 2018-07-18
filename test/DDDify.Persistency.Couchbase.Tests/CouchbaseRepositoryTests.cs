@@ -2,14 +2,10 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
- 
 using FluentAssertions;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using TestBase;
 using TestBase.ProductContext.Aggregates;
-
 using Xunit;
 
 namespace DDDify.Persistency.Couchbase.Tests
@@ -17,8 +13,6 @@ namespace DDDify.Persistency.Couchbase.Tests
     [Collection("CouchbaseCollection")]
     public class CouchbaseRepositoryTests : ApplicationTestBase
     {
-        private CouchbaseDockerFixture _fixture;
-
         public CouchbaseRepositoryTests(CouchbaseDockerFixture fixture)
         {
             _fixture = fixture;
@@ -28,48 +22,50 @@ namespace DDDify.Persistency.Couchbase.Tests
                 services.AddDDDify(builder =>
                 {
                     builder.UseCouchbase(Configuration)
-                           .AddBucket<Product>("ProductContext");
+                        .AddBucket<Product>("ProductContext");
                 });
                 services.AddLogging();
             }).Ok();
         }
 
+        private CouchbaseDockerFixture _fixture;
+
         [Fact]
         public async Task Delete_Should_Work()
         {
             var repository = The<ICouchbaseRepository<Product>>();
-            Guid productId = Random<Guid>._;
-            string name = Random<string>._;
+            var productId = Random<Guid>._;
+            var name = Random<string>._;
 
-            Product product = Product.Create(productId, name);
+            var product = Product.Create(productId, name);
             await repository.Insert(product, CancellationToken.None);
 
             var createdDoc = repository.Get().FirstOrDefault(x => x.Id == productId);
             await repository.Delete(createdDoc, CancellationToken.None);
         }
-         
+
         [Fact]
         public void Generate_Document_Id_Should_Work()
         {
             var repository = The<ICouchbaseRepository<Product>>();
-            Guid productId = Random<Guid>._;
-            string name = Random<string>._;
+            var productId = Random<Guid>._;
+            var name = Random<string>._;
 
-            Product product = Product.Create(productId, name);
+            var product = Product.Create(productId, name);
             var documentId = repository.GenerateDocumentId(product);
 
             documentId.Should().Be($"{typeof(Product).Name}:{productId}");
         }
 
         [Fact]
-        public async Task Insert_Should_Work() 
+        public async Task Insert_Should_Work()
         {
             var repository = The<ICouchbaseRepository<Product>>();
 
-            Guid productId = Random<Guid>._;
-            string name = Random<string>._;
+            var productId = Random<Guid>._;
+            var name = Random<string>._;
 
-            Product product = Product.Create(productId, name);
+            var product = Product.Create(productId, name);
 
             await repository.Insert(product, CancellationToken.None);
 
@@ -81,18 +77,18 @@ namespace DDDify.Persistency.Couchbase.Tests
         {
             var repository = The<ICouchbaseRepository<Product>>();
 
-            Guid productId = Random<Guid>._;
-            string name = Random<string>._;
+            var productId = Random<Guid>._;
+            var name = Random<string>._;
 
-            Product product = Product.Create(productId, name);
+            var product = Product.Create(productId, name);
             await repository.Insert(product, CancellationToken.None);
 
             var createdDoc = repository.Get().FirstOrDefault(x => x.Id == productId);
 
-            string newName = Random<string>._;
+            var newName = Random<string>._;
             createdDoc.ChangeName(newName);
 
-            Product updatedDoc = await repository.Update(createdDoc, CancellationToken.None);
+            var updatedDoc = await repository.Update(createdDoc, CancellationToken.None);
 
             updatedDoc.Name.Should().Be(newName);
         }

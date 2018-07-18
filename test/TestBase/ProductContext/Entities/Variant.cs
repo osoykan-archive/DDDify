@@ -1,5 +1,4 @@
 ﻿using System;
-
 using DDDify.Entities;
 
 namespace TestBase.ProductContext.Entities

@@ -1,5 +1,4 @@
 ﻿using System;
-
 using DDDify.Messaging;
 
 namespace TestBase.ProductContext.Aggregates.Events

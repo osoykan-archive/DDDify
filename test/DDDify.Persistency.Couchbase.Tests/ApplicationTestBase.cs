@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-
-using Couchbase.Core;
 using Couchbase.Extensions.DependencyInjection;
 using Couchbase.Linq;
-
 using TestBase;
 using TestBase.ProductContext.Aggregates;
 
@@ -16,10 +13,10 @@ namespace DDDify.Persistency.Couchbase.Tests
     {
         protected override IDictionary<string, string> InMemoryConfiguration => new Dictionary<string, string>
         {
-            { "Couchbase:Servers:0", "http://localhost:8091" },
-            { "Couchbase:UseSsl", "false" },
-            { "Couchbase:Username", "Administrator" },
-            { "Couchbase:Password", "password" }
+            {"Couchbase:Servers:0", "http://localhost:8091"},
+            {"Couchbase:UseSsl", "false"},
+            {"Couchbase:Username", "Administrator"},
+            {"Couchbase:Password", "password"}
         };
 
         protected TEntity Query<TEntity>(Expression<Func<TEntity, bool>> filter)
@@ -28,7 +25,7 @@ namespace DDDify.Persistency.Couchbase.Tests
             do
             {
                 var bucketName = The<IBucketNameResolver>().GetBucket<Product>();
-                IBucket bucket = The<IBucketProvider>().GetBucket(bucketName);
+                var bucket = The<IBucketProvider>().GetBucket(bucketName);
                 try
                 {
                     doc = new BucketContext(bucket).Query<TEntity>().FirstOrDefault(filter);
@@ -37,11 +34,9 @@ namespace DDDify.Persistency.Couchbase.Tests
                 {
                     doc = default(TEntity);
                 }
-            }
-            while (doc == null);
+            } while (doc == null);
 
             return doc;
         }
-
     }
 }

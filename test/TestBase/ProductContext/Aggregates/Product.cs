@@ -1,7 +1,5 @@
 ﻿using System;
-
 using DDDify.Aggregates;
-
 using TestBase.ProductContext.Aggregates.Events;
 
 namespace TestBase.ProductContext.Aggregates
@@ -20,7 +18,7 @@ namespace TestBase.ProductContext.Aggregates
         {
             ApplyChange(
                 new ProductNameChanged(Id, withName)
-                );
+            );
         }
 
         public static Product Create(Guid productId, string name)
@@ -28,7 +26,7 @@ namespace TestBase.ProductContext.Aggregates
             var product = new Product();
             product.ApplyChange(
                 new ProductCreated(productId, name)
-                );
+            );
 
             return product;
         }
@@ -37,14 +35,14 @@ namespace TestBase.ProductContext.Aggregates
         {
             ApplyChange(
                 new VariantAddedToProduct(Id, barcode)
-                );
+            );
         }
 
         public void ChangeVariantBarcode(Guid variantId, string barcode)
         {
             ApplyChange(
                 new ProductVariantBarcodeChanged(Id, variantId, barcode)
-                );
+            );
         }
     }
 }

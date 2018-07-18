@@ -1,8 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
 using DDDify.Messaging.Handlers;
-
 using TestBase.ProductContext.Aggregates;
 
 namespace DDDify.Persistency.Couchbase.Tests.Commands
@@ -15,7 +13,7 @@ namespace DDDify.Persistency.Couchbase.Tests.Commands
 
         protected override async Task Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            Product product = Product.Create(command.ProductId, command.Name);
+            var product = Product.Create(command.ProductId, command.Name);
 
             await _repository.Insert(product, cancellationToken);
         }
